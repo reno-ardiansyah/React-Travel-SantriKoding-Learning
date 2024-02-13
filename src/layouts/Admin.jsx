@@ -1,110 +1,151 @@
-import React, { useState, useEffect } from "react"; //import react 
-import { NavDropdown } from "react-bootstrap"; //import NavDropdown Bootstrap component
-import Sidebar from "../components/admin/_sidebar"; //import Sidebar component
-import Api from "../api"; //import Api
-import Cookies from "js-cookie"; //import js cookie
-import { useNavigate, Link, redirect } from "react-router-dom"; //import useNavigate and Link
-import toast from "react-hot-toast"; //import toast
+//import React
+import React, {useState, useEffect} from 'react';
 
-const LayoutAdmin = ({ children }) => {
-  const [user, setUser] = useState({}); //set user state
-  const [sidebarToggle, setSidebarToggle] = useState(false); //set sidebarToggle state
-  const navigate = useNavigate(); //get navigate
-  const token = Cookies.get("token"); //get token
+//import component bootstrap
+import { NavDropdown } from 'react-bootstrap';
 
-  //fn toggle sidebar
-  const SidebarToggleHandler = (e) => {
-    e.preventDefault(); //prevent default
+//import Sidebar
+import Sidebar from '../components/admin/sidebar';
 
-    if (!sidebarToggle) {
-      document.body.classList.add("sb-sidenav-toggled"); //add sidebar-toggled class
+//import BASE URL API
+import Api from '../api';
 
-      setSidebarToggle(true); //set sidebarToggle to true
-    } else {
-      document.body.classList.remove("sb-sidenav-toggled"); //remove sidebar-toggled class
+//import js cookie
+import Cookies from "js-cookie";
 
-      setSidebarToggle(false); //set sidebarToggle to false
+//hook link
+import { useNavigate, Link } from 'react-router-dom';
+
+//import toats
+import toast from "react-hot-toast";
+
+const LayoutAdmin =({children}) =>{
+
+    //state user
+    const [user, setUser] = useState({});
+
+    //state toggle
+    const [sidebarToggle, setSidebarToggle] = useState(false);
+
+    //navigate
+    const navigate = useNavigate();
+
+    //token
+    const token = Cookies.get("token");
+
+    //function toggle hanlder
+    const sidebarToggleHandler = (e) => {
+        e.preventDefault();
+
+        if(!sidebarToggle) {
+            //add class on body
+            document.body.classList.add('sb-sidenav-toggled');
+
+            //set state "sidebarToggle" to true
+            setSidebarToggle(true);
+        } else {
+
+            //remove class on body
+            document.body.classList.remove('sb-sidenav-toggled');
+
+            //set state "sidebarToggle" to false
+            setSidebarToggle(false);
+        }
     }
-  }
 
-  //fetc Data
-  const fetchData = async () => {
-    await Api.get('/api/admin/user', {
-      headers: {
-        Authorization: `Bearer ${token}`, //set token to header
-      }
-    })
-      .then((response) => {
-        setUser(response.data); //set user state
-      })
-  };
+    //fetchData
+    const fetchData = async () => {
 
-  //ussEffect
-  useEffect(() => {
-    fetchData(); //fetch data 
+        //fetch on Rest API
+        await Api.get('/api/admin/user', {
+            headers: {
+                
+                //header Bearer + Token
+                Authorization: `Bearer ${token}`,
+            }
+        })
+        .then((response) => {
 
-  }, []);
+            //set state "user"
+            setUser(response.data);
+        })
+    };
 
-  //fn Logout
-  const logoutHandler = async (e) => {
-    e.preventDefault(); //prevent default
+    //hook useEffect
+    useEffect(() => {
 
-    await Api.post('api/admin/logout', null, {
-      headers: {
-        Authorization: `Bearer ${token}`, //set token to header
-      }
-    }).then(() => {
-      Cookies.remove("token"); //remove token
+        //call function "fetchData"
+        fetchData();
 
-      //show toast
-      toast.success('Logout Successfully.', {
-        duration: 4000,
-        position: "top-right",
-        style: {
-          borderRadius: '10px',
-          background: '#333',
-          color: '#fff',
-        },
-      });
-      // redirect
-      navigate("/admin/login");
-    })
-  }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-  return (
-    <React.Fragment>
-      <div className="d-flex sb-sidenav-toggled" id="wrapper">
-        <div className="bg-white" id="sidebar-wrapper">
-          <div className="sidebar-heading bg-light text-center"><i className="fa fa-map-marked-alt"></i> <strong>TRAVEL GIS</strong> <small>ADMIN</small></div>
-          <Sidebar />
-        </div>
-        <div id="page-content-wrapper">
-          <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <div className="container-fluid">
-              <button className="btn btn-success-dark" onClick={sidebarToggleHandler}><i className="fa fa-list-ul"></i></button>
-              <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul className="navbar-nav ms-auto mt-2 mt-lg-0">
-                  <NavDropdown title={user.name} className="fw-bold" id="basic-nav-dropdown">
-                    <NavDropdown.Item as={Link} to="/" target="_blank"><i className="fa fa-external-link-alt me-2"></i> Visit Web</NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item as={Link} to="/admin/categories"><i className="fa fa-folder me-2"></i> Categories</NavDropdown.Item>
-                    <NavDropdown.Item as={Link} to="/admin/places"><i className="fa fa-map-marked-alt me-2"></i> Places</NavDropdown.Item>
-                    <NavDropdown.Item as={Link} to="/admin/sliders"><i className="fa fa-images me-2"></i> Sliders</NavDropdown.Item>
-                    <NavDropdown.Item as={Link} to="/admin/users"><i className="fa fa-users me-2"></i> Users</NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item onClick={logoutHandler}><i className="fa fa-sign-out-alt me-2"></i> Logout</NavDropdown.Item>
-                  </NavDropdown>
-                </ul>
-              </div>
+    //function logout
+    const logoutHandler = async (e) => {
+        e.preventDefault();
+
+        await Api.post('/api/admin/logout', null, {
+            headers: {
+                
+                //header Bearer + Token
+                Authorization: `Bearer ${token}`,
+            }
+        })
+        .then(() => {
+
+            //remove token
+            Cookies.remove('token');
+
+            //show toast
+            toast.success("Logout Successfully.", {
+                duration: 4000,
+                position: "top-right",
+                style: {
+                    borderRadius: '10px',
+                    background: '#333',
+                    color: '#fff',
+                },
+            });
+
+            //redirect login page
+            navigate('/admin/login');
+        })
+    }
+
+    return(
+        <React.Fragment>
+            <div className="d-flex sb-sidenav-toggled" id="wrapper">
+            <div className="bg-white" id="sidebar-wrapper">
+                <div className="sidebar-heading bg-light text-center"><i className="fa fa-map-marked-alt"></i> <strong>TRAVEL GIS</strong> <small>ADMIN</small></div>
+                <Sidebar />
             </div>
-          </nav>
-          <div className="container-fluid">
-            {children}
-          </div>
+            <div id="page-content-wrapper">
+                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                    <div className="container-fluid">
+                        <button className="btn btn-success-dark" onClick={sidebarToggleHandler}><i className="fa fa-list-ul"></i></button>
+                        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul className="navbar-nav ms-auto mt-2 mt-lg-0">
+                            <NavDropdown title={user.name} className="fw-bold" id="basic-nav-dropdown">
+                                <NavDropdown.Item as={Link} to="/" target="_blank"><i className="fa fa-external-link-alt me-2"></i> Visit Web</NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item as={Link} to="/admin/categories"><i className="fa fa-folder me-2"></i> Categories</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/admin/places"><i className="fa fa-map-marked-alt me-2"></i> Places</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/admin/sliders"><i className="fa fa-images me-2"></i> Sliders</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to="/admin/users"><i className="fa fa-users me-2"></i> Users</NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item onClick={logoutHandler}><i className="fa fa-sign-out-alt me-2"></i> Logout</NavDropdown.Item>
+                            </NavDropdown>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                <div className="container-fluid">
+                    {children}
+                </div>
+            </div>
         </div>
-      </div>
-    </React.Fragment>
-  )
+        </React.Fragment>
+    )
 }
 
 export default LayoutAdmin;

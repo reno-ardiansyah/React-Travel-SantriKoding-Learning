@@ -1,31 +1,42 @@
-import axios from "axios"; //import axios
-import Cookies from "js-cookie"; //import js cookie
+//import axios
+import axios from 'axios'
+
+//import js cookie
+import Cookies from 'js-cookie';
 
 const Api = axios.create({
-  baseURL: import.meta.env.VITE_APP_BASEURL, //set endpoint API
+    
+    //set endpoint API
+    baseURL: import.meta.env.VITE_APP_BASEURL,
 
-  //set header axios
-  headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-  },
+    //set header axios
+    headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+    }
 });
 
 //handle unathenticated
-Api.interceptors.response.use(
-  function (response) {
-    return response; //return response
-  },
-  (error) => {
+Api.interceptors.response.use(function (response) {
+
+    //return response
+    return response;
+}, ((error) => {
+
     //check if response unauthenticated
     if (401 === error.response.status) {
-      Cookies.remove("token"); //remove token
 
-      window.location = "/admin/login"; //redirect to login page
+        //remove token
+        Cookies.remove('token');
+
+        //redirect "/admin/login"
+        window.location = '/admin/login';
     } else {
-      return Promise.reject(error); //return error
-    }
-  }
-);
 
-export default Api;
+        //reject promise error
+        return Promise.reject(error);
+    }
+}));
+
+
+export default Api
