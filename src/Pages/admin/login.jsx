@@ -1,50 +1,30 @@
-//import hook react
-import React, { useState } from "react";
-
-//import BASE URL API
-import Api from "../../api";
-
-//import toats
-import toast from "react-hot-toast";
-
-//import js cookie
-import Cookies from "js-cookie";
-
-//import react router dom
-import { useNavigate } from "react-router-dom";
+import Api from "../../api"; //import BASE URL API
+import Cookies from "js-cookie"; //import js cookie
+import toast from "react-hot-toast"; //import toats
+import React, { useState } from "react"; //import hook react
+import { useNavigate } from "react-router-dom"; //import react router dom
 
 function Login() {
+  document.title = "Login - Administrator Travel GIS"; //title page
 
-  //title page
-  document.title = "Login - Administrator Travel GIS";
-
-  //navigate
-  const navigate = useNavigate();
-
-  //state user
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  //state loading
-  const [isLoading, setLoading] = useState(false);
-
-  //state validation
-  const [validation, setValidation] = useState({});
+  const navigate = useNavigate(); //navigate
+  const [email, setEmail] = useState(""); //state user
+  const [password, setPassword] = useState(""); //state password
+  const [isLoading, setLoading] = useState(false); //state loading
+  const [validation, setValidation] = useState({}); //state validation
 
   //function "loginHandler"
   const loginHandler = async (e) => {
     e.preventDefault();
 
-    //set state isLoading to "true"
-    setLoading(true);
+    setLoading(true); //set state isLoading to "true"
 
     await Api.post("/api/admin/login", {
       email: email,
       password: password,
     })
       .then((response) => {
-        //set state isLoading to "false"
-        setLoading(false);
+        setLoading(false); //set state isLoading to "false"
 
         //show toast
         toast.success("Login Successfully.", {
@@ -57,27 +37,19 @@ function Login() {
           },
         });
 
-        //set cookie
-        Cookies.set("token", response.data.token);
-
-        //redirect dashboard page
-        navigate("/admin/dashboard");
+        Cookies.set("token", response.data.token); //set cookie
+        navigate("/admin/dashboard"); //redirect dashboard page
       })
       .catch((error) => {
-        //set state isLoading to "false"
-        setLoading(false);
-
-        //set error response validasi to state "validation"
-        setValidation(error.response.data);
+        setLoading(false); //set state isLoading to "false"
+        setValidation(error.response.data); //set error response validasi to state "validation"
       });
   };
 
   if (Cookies.get("token")) {
-    //redirect dashboard page
-    return navigate("/admin/dashboard");
+    return navigate("/admin/dashboard"); //redirect dashboard page
   }
-
-
+  
   return (
     <React.Fragment>
       <div className="container">

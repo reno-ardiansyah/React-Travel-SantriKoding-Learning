@@ -1,11 +1,7 @@
-//import Toaster
-import { Toaster } from 'react-hot-toast';
-
-//import routes
-import Routes from './routes/routes';
+import { Toaster } from 'react-hot-toast'; //import Toaster
+import Routes from './routes/routes'; //import routes
 
 function App() {
-
   return (
     <>
       <Toaster />

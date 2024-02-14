@@ -1,20 +1,11 @@
-//import react  
-import React, { useState, useEffect } from "react";
-
-//import layout admin
-import LayoutAdmin from "../../../layouts/Admin";
-
-//import BASE URL API
-import Api from "../../../api";
-
-//import js cookie
-import Cookies from "js-cookie";
+import React, { useState, useEffect } from "react"; //import react  
+import LayoutAdmin from "../../../layouts/Admin"; //import layout admin
+import Api from "../../../api"; //import BASE URL API
+import Cookies from "js-cookie"; //import js cookie
 
 function Dashboard() {
-
-	//title page
-    document.title = "Dashboard - Administrator Travel GIS";
-
+    document.title = "Dashboard - Administrator Travel GIS"; //title page
+    
     //set state
     const [categories, setCategories] = useState(0);
     const [places, setPlaces] = useState(0);

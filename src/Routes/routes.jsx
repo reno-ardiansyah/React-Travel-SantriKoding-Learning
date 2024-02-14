@@ -5,14 +5,9 @@ import { Routes, Route } from "react-router-dom";
 //ADMIN
 //=======================================================================
 
-//import view Login
-import Login from '../pages/admin/login';
-
-//import component private routes
-import PrivateRoute from "./PrivateRoutes";
-
-//import view admin Dashboard
-import Dashboard from '../pages/admin/dashboard/Index';
+import Login from '../pages/admin/login'; //import view Login
+import PrivateRoute from "./PrivateRoutes"; //import component private routes
+import Dashboard from '../pages/admin/dashboard/Index'; //import view admin Dashboard
 
 function RoutesIndex() {
   return (
