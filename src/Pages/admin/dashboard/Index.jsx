@@ -49,6 +49,15 @@ function Dashboard() {
     return (
         <React.Fragment>
             <LayoutAdmin>
+            <div className="row mt-4">
+                    <div className="col-12">
+                        <div className="card border-0 rounded shadow-sm border-top-success">
+                            <div className="card-header">
+                                <span className="font-weight-bold"><i className="fa fa-tachometer-alt"></i> DASHBOARD</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div className="row mt-4">
                     <div className="col-12 col-lg-3 mb-4">
                     <div className="card border-0 shadow-sm overflow-hidden">
