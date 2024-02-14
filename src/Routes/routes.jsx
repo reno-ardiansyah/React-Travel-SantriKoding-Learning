@@ -8,6 +8,7 @@ import { Routes, Route } from "react-router-dom";
 import Login from '../pages/admin/login'; //import view Login
 import PrivateRoute from "./PrivateRoutes"; //import component private routes
 import Dashboard from '../pages/admin/dashboard/Index'; //import view admin Dashboard
+import CategoriesIndex from '../pages/admin/categories/Index.jsx'; //import view admin categories
 
 function RoutesIndex() {
   return (
@@ -22,6 +23,16 @@ function RoutesIndex() {
         element={
           <PrivateRoute>
             <Dashboard />
+          </PrivateRoute>
+        }
+      />
+
+      {/* private route "/admin/categories" */}
+      <Route
+        path="/admin/categories"
+        element={
+          <PrivateRoute>
+            <CategoriesIndex />
           </PrivateRoute>
         }
       />
