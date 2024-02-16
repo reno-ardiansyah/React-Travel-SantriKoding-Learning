@@ -14,6 +14,7 @@ import CategoryEdit from "../pages/admin/categories/Edit.jsx"; //import view adm
 import PlacesIndex from '../pages/admin/places/index.jsx'; //import view admin placesq
 import PlaceCreate from '../pages/admin/places/Create.jsx'; //import view admin places
 import SidebarIndex from "../pages/admin/sliders/Index.jsx"; //import component sidebar
+import SliderCreate from "../pages/admin/sliders/Create.jsx";
 
 function RoutesIndex() {
   return (
@@ -42,6 +43,9 @@ function RoutesIndex() {
 
       {/* private route "/admin/sliders" */}
       <Route path="/admin/sliders" element={<PrivateRoute> <SidebarIndex /> </PrivateRoute>} />
+
+      {/* private route "/admin/sliders/create" */}
+      <Route path="/admin/sliders/create" element={<PrivateRoute> <SliderCreate /> </PrivateRoute>} />
     </Routes>
   )
 }
