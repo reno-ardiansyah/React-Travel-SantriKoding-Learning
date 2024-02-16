@@ -13,6 +13,7 @@ import CategoryCreate from '../pages/admin/categories/Create.jsx'; //import view
 import CategoryEdit from "../pages/admin/categories/Edit.jsx"; //import view admin categories
 import PlacesIndex from '../pages/admin/places/index.jsx'; //import view admin placesq
 import PlaceCreate from '../pages/admin/places/Create.jsx'; //import view admin places
+import SidebarIndex from "../pages/admin/sliders/Index.jsx"; //import component sidebar
 
 function RoutesIndex() {
   return (
@@ -22,22 +23,25 @@ function RoutesIndex() {
       <Route path="/admin/login" element={<Login />} />
 
       {/* private route "/admin/dashboard" */}
-      <Route path="/admin/dashboard" element={ <PrivateRoute> <Dashboard /> </PrivateRoute>}/>
+      <Route path="/admin/dashboard" element={<PrivateRoute> <Dashboard /> </PrivateRoute>} />
 
       {/* private route "/admin/categories" */}
-      <Route path="/admin/categories" element={ <PrivateRoute> <CategoriesIndex /> </PrivateRoute> }/>
+      <Route path="/admin/categories" element={<PrivateRoute> <CategoriesIndex /> </PrivateRoute>} />
 
       {/* private route "/admin/categories/create" */}
-      <Route path="/admin/categories/create" element={ <PrivateRoute> <CategoryCreate /> </PrivateRoute> } />
+      <Route path="/admin/categories/create" element={<PrivateRoute> <CategoryCreate /> </PrivateRoute>} />
 
       {/* private route "/admin/categories/edit/:id" */}
-      <Route path="/admin/categories/edit/:id" element={ <PrivateRoute> <CategoryEdit /> </PrivateRoute> } />
+      <Route path="/admin/categories/edit/:id" element={<PrivateRoute> <CategoryEdit /> </PrivateRoute>} />
 
       {/* private route "/admin/places" */}
-      <Route path="/admin/places" element={ <PrivateRoute> <PlacesIndex /> </PrivateRoute> } />
+      <Route path="/admin/places" element={<PrivateRoute> <PlacesIndex /> </PrivateRoute>} />
 
       {/* private route "/admin/places/create" */}
-      <Route path="/admin/places/create" element={ <PrivateRoute> <PlaceCreate /> </PrivateRoute> } />
+      <Route path="/admin/places/create" element={<PrivateRoute> <PlaceCreate /> </PrivateRoute>} />
+
+      {/* private route "/admin/sliders" */}
+      <Route path="/admin/sliders" element={<PrivateRoute> <SidebarIndex /> </PrivateRoute>} />
     </Routes>
   )
 }

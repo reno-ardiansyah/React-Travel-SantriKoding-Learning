@@ -1,33 +1,15 @@
-//import hook from react
 import React, { useState, useEffect } from "react";
-
-//import layout
 import LayoutAdmin from "../../../layouts/Admin";
-
-//import BASE URL API
 import Api from "../../../api";
-
-//import hook navigate dari react router dom
 import { useNavigate } from "react-router-dom";
-
-//import js cookie
 import Cookies from "js-cookie";
-
-//import toats
 import toast from "react-hot-toast";
-
-//import react Quill
 import ReactQuill from 'react-quill';
-
-// quill CSS
 import 'react-quill/dist/quill.snow.css';
 
 function PlaceCreate() {
-
-  //title page
   document.title = "Add New Place - Administrator Travel GIS";
 
-  //state form
   const [title, setTitle] = useState("");
   const [categoryID, setCategoryID] = useState("");
   const [description, setDescription] = useState("");
@@ -38,31 +20,17 @@ function PlaceCreate() {
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
 
-  //state image array / multiple
   const [images, setImages] = useState([]);
-
-  //state categories
   const [categories, setCategories] = useState([]);
-
-  //state validation
   const [validation, setValidation] = useState({});
-
-  //token
   const token = Cookies.get("token");
-
-  //navigate
   const navigate = useNavigate();
-
-  //function "fetchCategories"
   const fetchCategories = async () => {
 
-    //fetching data from Rest API
     await Api.get('/api/web/categories')
       .then(response => {
-        //set data response to state "catgeories"
         setCategories(response.data.data);
       });
-
   }
 
   //hook
@@ -73,17 +41,11 @@ function PlaceCreate() {
 
   //function "handleFileChange"
   const handleFileChange = (e) => {
-
-    //define variable for get value image data
     const imageData = e.target.files;
 
     Array.from(imageData).forEach(image => {
-      //check validation file
       if (!image.type.match('image.*')) {
-
         setImages([]);
-
-        //show toast
         toast.error("Format File not Supported!", {
           duration: 4000,
           position: "top-right",
@@ -93,23 +55,18 @@ function PlaceCreate() {
             color: '#fff',
           },
         });
-
         return
       } else {
         setImages([...e.target.files]);
       }
     });
-
   }
 
-  //function "storePlace"
   const storePlace = async (e) => {
     e.preventDefault();
 
-    //define formData
     const formData = new FormData();
 
-    //append data to "formData"
     formData.append('title', title);
     formData.append('category_id', categoryID);
     formData.append('description', description);
@@ -124,19 +81,14 @@ function PlaceCreate() {
       formData.append("image[]", image);
     });
 
-    //send data to server
     await Api.post('/api/admin/places', formData, {
 
-      //header
       headers: {
-        //header Bearer + Token
         'Authorization': `Bearer ${token}`,
         'content-type': 'multipart/form-data'
       }
 
     }).then(() => {
-
-      //show toast
       toast.success("Data Saved Successfully!", {
         duration: 4000,
         position: "top-right",
@@ -146,14 +98,9 @@ function PlaceCreate() {
           color: '#fff',
         },
       });
-
-      //redirect dashboard page
       navigate("/admin/places");
-
     })
       .catch((error) => {
-
-        //set state "validation"
         setValidation(error.response.data);
       })
 
