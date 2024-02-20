@@ -18,6 +18,7 @@ import SidebarIndex from "../pages/admin/sliders/Index.jsx"; //import component 
 import SliderCreate from "../pages/admin/sliders/Create.jsx"; //import component slider
 import UserIndex from "../pages/admin/users/Index.jsx"; //import component user
 import UserCreate from "../pages/admin/users/Create.jsx"; //import component user
+import UserEdit from "../pages/admin/users/Edit.jsx"; //import component user
 
 function RoutesIndex() {
   return (
@@ -59,6 +60,8 @@ function RoutesIndex() {
       {/* private route "/admin/users/create" */}
       <Route path="/admin/users/create" element={<PrivateRoute> <UserCreate /> </PrivateRoute>} />
 
+      {/* private route "/admin/users/edit/:id" */}
+      <Route path="/admin/users/edit/:id" element={<PrivateRoute> <UserEdit/> </PrivateRoute>} />
     </Routes>
   )
 }
