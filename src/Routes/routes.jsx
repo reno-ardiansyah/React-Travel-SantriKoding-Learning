@@ -13,6 +13,7 @@ import CategoryCreate from '../pages/admin/categories/Create.jsx'; //import view
 import CategoryEdit from "../pages/admin/categories/Edit.jsx"; //import view admin categories
 import PlacesIndex from '../pages/admin/places/index.jsx'; //import view admin placesq
 import PlaceCreate from '../pages/admin/places/Create.jsx'; //import view admin places
+import PlaceEdit from "../pages/admin/places/Edit.jsx";
 import SidebarIndex from "../pages/admin/sliders/Index.jsx"; //import component sidebar
 import SliderCreate from "../pages/admin/sliders/Create.jsx"; //import component slider
 import UserIndex from "../pages/admin/users/Index.jsx"; //import component user
@@ -43,6 +44,9 @@ function RoutesIndex() {
       {/* private route "/admin/places/create" */}
       <Route path="/admin/places/create" element={<PrivateRoute> <PlaceCreate /> </PrivateRoute>} />
 
+      {/* private route "/admin/places/edit/:id" */}
+      <Route path="/admin/places/edit/:id" element={<PrivateRoute> <PlaceEdit /> </PrivateRoute> } />
+
       {/* private route "/admin/sliders" */}
       <Route path="/admin/sliders" element={<PrivateRoute> <SidebarIndex /> </PrivateRoute>} />
 
@@ -54,6 +58,7 @@ function RoutesIndex() {
 
       {/* private route "/admin/users/create" */}
       <Route path="/admin/users/create" element={<PrivateRoute> <UserCreate /> </PrivateRoute>} />
+
     </Routes>
   )
 }
