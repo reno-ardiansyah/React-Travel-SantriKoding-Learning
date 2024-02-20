@@ -20,6 +20,11 @@ import UserIndex from "../pages/admin/users/Index.jsx"; //import component user
 import UserCreate from "../pages/admin/users/Create.jsx"; //import component user
 import UserEdit from "../pages/admin/users/Edit.jsx"; //import component user
 
+//=======================================================================
+// WEB
+//=======================================================================
+import Home from "../pages/web/home/Index.jsx";
+
 function RoutesIndex() {
   return (
     <Routes>
@@ -46,7 +51,7 @@ function RoutesIndex() {
       <Route path="/admin/places/create" element={<PrivateRoute> <PlaceCreate /> </PrivateRoute>} />
 
       {/* private route "/admin/places/edit/:id" */}
-      <Route path="/admin/places/edit/:id" element={<PrivateRoute> <PlaceEdit /> </PrivateRoute> } />
+      <Route path="/admin/places/edit/:id" element={<PrivateRoute> <PlaceEdit /> </PrivateRoute>} />
 
       {/* private route "/admin/sliders" */}
       <Route path="/admin/sliders" element={<PrivateRoute> <SidebarIndex /> </PrivateRoute>} />
@@ -61,7 +66,10 @@ function RoutesIndex() {
       <Route path="/admin/users/create" element={<PrivateRoute> <UserCreate /> </PrivateRoute>} />
 
       {/* private route "/admin/users/edit/:id" */}
-      <Route path="/admin/users/edit/:id" element={<PrivateRoute> <UserEdit/> </PrivateRoute>} />
+      <Route path="/admin/users/edit/:id" element={<PrivateRoute> <UserEdit /> </PrivateRoute>} />
+
+      {/* route "/" */}
+      <Route path="/" element={<Home />} />
     </Routes>
   )
 }
