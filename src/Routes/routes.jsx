@@ -16,6 +16,7 @@ import PlaceCreate from '../pages/admin/places/Create.jsx'; //import view admin 
 import SidebarIndex from "../pages/admin/sliders/Index.jsx"; //import component sidebar
 import SliderCreate from "../pages/admin/sliders/Create.jsx"; //import component slider
 import UserIndex from "../pages/admin/users/Index.jsx"; //import component user
+import UserCreate from "../pages/admin/users/Create.jsx"; //import component user
 
 function RoutesIndex() {
   return (
@@ -50,6 +51,9 @@ function RoutesIndex() {
 
       {/* private route "/admin/users" */}
       <Route path="/admin/users" element={<PrivateRoute> <UserIndex /> </PrivateRoute>} />
+
+      {/* private route "/admin/users/create" */}
+      <Route path="/admin/users/create" element={<PrivateRoute> <UserCreate /> </PrivateRoute>} />
     </Routes>
   )
 }
