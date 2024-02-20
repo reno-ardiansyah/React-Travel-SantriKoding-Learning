@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import LayoutAdmin from "../../../layouts/Admin";
 import Api from "../../../api";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,9 @@ import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import mapboxgl from "mapbox-gl";
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+mapboxgl.accessToken = import.meta.env.VITE_APP_MAPBOX;
 
 function PlaceCreate() {
   document.title = "Add New Place - Administrator Travel GIS";
@@ -103,9 +106,44 @@ function PlaceCreate() {
       .catch((error) => {
         setValidation(error.response.data);
       })
-
   }
 
+  //=============================================================
+  // MapBox
+  //=============================================================
+
+  const mapContainer = useRef(null);
+
+  useEffect(() => {
+    const map = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: 'mapbox://styles/mapbox/streets-v12',
+      center: [longitude, latitude],
+      zoom: 12
+    });
+    const geocoder = new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      marker: {
+        draggable: true
+      },
+      mapboxgl: mapboxgl
+    });
+    map.addControl(geocoder);
+
+    const marker = new mapboxgl.Marker({
+      draggable: true,
+      color: "rgb(47 128 237)"
+    }).setLngLat([longitude, latitude]).addTo(map);
+
+    geocoder.on('result', function (e) {
+      marker.remove();
+      marker.setLngLat(e.result.center).address(map);
+      marker.on('dragend', function (e) {
+        setLongitude(e.target._lngLat.lng)
+        setLatitude(e.target._lngLat.lat)
+      });
+    });
+  }, []);
   return (
     <React.Fragment>
       <LayoutAdmin>
@@ -225,6 +263,11 @@ function PlaceCreate() {
                           {validation.longitude[0]}
                         </div>
                       )}
+                    </div>
+                    <div className="row mb-3">
+                      <div className="col-md-12">
+                        <div ref={mapContainer} className="map-container" />
+                      </div>
                     </div>
                   </div>
                   <div>
