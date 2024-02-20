@@ -24,6 +24,7 @@ import UserEdit from "../pages/admin/users/Edit.jsx"; //import component user
 // WEB
 //=======================================================================
 import Home from "../pages/web/home/Index.jsx";
+import WebCategoryShow from "../pages/web/categories/Show.jsx";
 
 function RoutesIndex() {
   return (
@@ -70,6 +71,9 @@ function RoutesIndex() {
 
       {/* route "/" */}
       <Route path="/" element={<Home />} />
+
+      {/* route "/category/:slug" */}
+      <Route path="/category/:slug" element={<WebCategoryShow/>}/>
     </Routes>
   )
 }
