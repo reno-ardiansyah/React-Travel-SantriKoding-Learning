@@ -1,18 +1,42 @@
+//import hook from react
 import React, { useState, useEffect, useRef } from "react";
+
+//import layout
 import LayoutAdmin from "../../../layouts/Admin";
+
+//import BASE URL API
 import Api from "../../../api";
+
+//import hook navigate dari react router dom
 import { useNavigate } from "react-router-dom";
+
+//import js cookie
 import Cookies from "js-cookie";
+
+//import toats
 import toast from "react-hot-toast";
+
+//import react Quill
 import ReactQuill from 'react-quill';
+
+// quill CSS
 import 'react-quill/dist/quill.snow.css';
-import mapboxgl from "mapbox-gl";
-import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+
+//mapbox gl
+import mapboxgl from 'mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+
+//mapbox gl geocoder
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+
+//api key mapbox
 mapboxgl.accessToken = import.meta.env.VITE_APP_MAPBOX;
 
 function PlaceCreate() {
+
+  //title page
   document.title = "Add New Place - Administrator Travel GIS";
 
+  //state form
   const [title, setTitle] = useState("");
   const [categoryID, setCategoryID] = useState("");
   const [description, setDescription] = useState("");
@@ -23,17 +47,31 @@ function PlaceCreate() {
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
 
+  //state image array / multiple
   const [images, setImages] = useState([]);
+
+  //state categories
   const [categories, setCategories] = useState([]);
+
+  //state validation
   const [validation, setValidation] = useState({});
+
+  //token
   const token = Cookies.get("token");
+
+  //navigate
   const navigate = useNavigate();
+
+  //function "fetchCategories"
   const fetchCategories = async () => {
 
+    //fetching data from Rest API
     await Api.get('/api/web/categories')
       .then(response => {
+        //set data response to state "catgeories"
         setCategories(response.data.data);
       });
+
   }
 
   //hook
@@ -44,11 +82,17 @@ function PlaceCreate() {
 
   //function "handleFileChange"
   const handleFileChange = (e) => {
+
+    //define variable for get value image data
     const imageData = e.target.files;
 
     Array.from(imageData).forEach(image => {
+      //check validation file
       if (!image.type.match('image.*')) {
+
         setImages([]);
+
+        //show toast
         toast.error("Format File not Supported!", {
           duration: 4000,
           position: "top-right",
@@ -58,18 +102,23 @@ function PlaceCreate() {
             color: '#fff',
           },
         });
+
         return
       } else {
         setImages([...e.target.files]);
       }
     });
+
   }
 
+  //function "storePlace"
   const storePlace = async (e) => {
     e.preventDefault();
 
+    //define formData
     const formData = new FormData();
 
+    //append data to "formData"
     formData.append('title', title);
     formData.append('category_id', categoryID);
     formData.append('description', description);
@@ -84,14 +133,19 @@ function PlaceCreate() {
       formData.append("image[]", image);
     });
 
+    //send data to server
     await Api.post('/api/admin/places', formData, {
 
+      //header
       headers: {
+        //header Bearer + Token
         'Authorization': `Bearer ${token}`,
         'content-type': 'multipart/form-data'
       }
 
     }).then(() => {
+
+      //show toast
       toast.success("Data Saved Successfully!", {
         duration: 4000,
         position: "top-right",
@@ -101,49 +155,88 @@ function PlaceCreate() {
           color: '#fff',
         },
       });
+
+      //redirect dashboard page
       navigate("/admin/places");
+
     })
       .catch((error) => {
+
+        //set state "validation"
         setValidation(error.response.data);
       })
+
   }
 
-  //=============================================================
-  // MapBox
-  //=============================================================
+  //=========================================================
+  //MAPBOX
+  //=========================================================
 
+  //define state
   const mapContainer = useRef(null);
 
   useEffect(() => {
+
+    //init map
     const map = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/streets-v12',
       center: [longitude, latitude],
       zoom: 12
     });
+
+    //init geocoder
     const geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
+
       marker: {
         draggable: true
       },
+
       mapboxgl: mapboxgl
     });
+
+    //add geocoder to map
     map.addControl(geocoder);
 
+    //init marker
     const marker = new mapboxgl.Marker({
       draggable: true,
       color: "rgb(47 128 237)"
-    }).setLngLat([longitude, latitude]).addTo(map);
+    })
 
+      //set longtitude and latitude
+      .setLngLat([longitude, latitude])
+      //add marker to map
+      .addTo(map);
+
+
+    //geocoder result
     geocoder.on('result', function (e) {
+
+      //remove marker
       marker.remove();
-      marker.setLngLat(e.result.center).address(map);
+
+      //set longitude and latitude
+      marker.setLngLat(e.result.center)
+
+        //add to map
+        .addTo(map);
+
+      //event marker on dragend
       marker.on('dragend', function (e) {
+
+        //assign longitude and latitude to state
         setLongitude(e.target._lngLat.lng)
         setLatitude(e.target._lngLat.lat)
+
       });
+
     });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <React.Fragment>
       <LayoutAdmin>

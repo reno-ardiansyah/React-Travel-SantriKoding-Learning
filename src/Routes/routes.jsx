@@ -26,6 +26,8 @@ import UserEdit from "../pages/admin/users/Edit.jsx"; //import component user
 import Home from "../pages/web/home/Index.jsx";
 import WebCategoryShow from "../pages/web/categories/Show.jsx";
 import WebPlacesIndex from "../pages/web/places/Index.jsx";
+import WebPlacesShow from "../pages/web/places/Show.jsx";
+import WebPlacesDirection from "../pages/web/places/Direction.jsx";
 
 function RoutesIndex() {
   return (
@@ -78,6 +80,12 @@ function RoutesIndex() {
 
       {/* route "/places" */}
       <Route path="/places" element={<WebPlacesIndex/>}/>
+
+      {/* route "/places/:slug" */}
+      <Route path="/places/:slug" element={<WebPlacesShow/>}/>
+
+      {/* route "/places/:slug/direction" */}
+      <Route path="/places/:slug/direction" element={<WebPlacesDirection/>}/>
     </Routes>
   )
 }
