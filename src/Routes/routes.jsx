@@ -28,6 +28,7 @@ import WebCategoryShow from "../pages/web/categories/Show.jsx";
 import WebPlacesIndex from "../pages/web/places/Index.jsx";
 import WebPlacesShow from "../pages/web/places/Show.jsx";
 import WebPlacesDirection from "../pages/web/places/Direction.jsx";
+import WebMapsIndex from "../pages/web/maps/Index.jsx";
 
 function RoutesIndex() {
   return (
@@ -86,6 +87,9 @@ function RoutesIndex() {
 
       {/* route "/places/:slug/direction" */}
       <Route path="/places/:slug/direction" element={<WebPlacesDirection/>}/>
+
+      {/* route "/maps" */}
+      <Route path="/maps" element={<WebMapsIndex/>}/>
     </Routes>
   )
 }
